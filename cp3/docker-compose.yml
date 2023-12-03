@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx-conf:/etc/nginx/conf.d
+    depends_on:
+      - web
+
+  apache:
+    image: httpd:latest
+    ports:
+      - "8081:80"
+    depends_on:
+      - web
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  web:
+    build: ./web
+    ports:
+      - "8082:8082"
+    depends_on:
+      - redis
